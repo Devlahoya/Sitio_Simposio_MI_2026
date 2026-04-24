@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy: #0f1e4a;
+  --color-navy-dark: #080f28;
+  --color-navy-light: #1a2b5e;
+  --color-orange: #f97316;
+  --color-orange-light: #fb923c;
+  --color-sky: #38bdf8;
+  --color-sky-dark: #0ea5e9;
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: #080f28;
+    color: #e2e8f0;
+    font-family: 'Inter', system-ui, sans-serif;
+    margin: 0;
+  }
+  #root {
+    width: 100%;
+    text-align: left;
+  }
+}
+
+@layer utilities {
+  .glow-orange {
+    box-shadow: 0 0 40px rgba(249, 115, 22, 0.35);
+  }
+  .glow-sky {
+    box-shadow: 0 0 40px rgba(56, 189, 248, 0.35);
+  }
+  .text-gradient-orange {
+    background: linear-gradient(135deg, #f97316, #fb923c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .text-gradient-sky {
+    background: linear-gradient(135deg, #38bdf8, #7dd3fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .bg-grid {
+    background-image:
+      linear-gradient(rgba(56,189,248,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(56,189,248,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .card-glass {
+    background: rgba(15, 30, 74, 0.5);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(56, 189, 248, 0.12);
+  }
+  .card-glass-hover:hover {
+    border-color: rgba(56, 189, 248, 0.35);
+    background: rgba(15, 30, 74, 0.7);
+  }
+}
