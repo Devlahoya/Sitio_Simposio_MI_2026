@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
+import LogoIngenia from './LogoIngenia'
 
 const links = [
   { href: '#sobre', label: 'Sobre el Evento' },
@@ -39,15 +40,7 @@ export default function Navbar() {
           {/* Logo */}
           <a href="#inicio" onClick={(e) => { e.preventDefault(); handleLink('#inicio') }}
             className="flex items-center gap-3 group">
-            <div className="relative w-12 h-12 rounded-xl overflow-hidden border border-sky-500/30 bg-white/5">
-              <img src="/logo-ingenia.png" alt="IngenIA" className="w-full h-full object-contain"
-                onError={(e) => {
-                  e.target.style.display = 'none'
-                  e.target.parentElement.classList.add('bg-navy-light', 'flex', 'items-center', 'justify-center')
-                  e.target.parentElement.innerHTML = '<span style="font-weight:800;font-size:12px;color:#f97316">IA</span>'
-                }}
-              />
-            </div>
+            <LogoIngenia size={42} showText={false} />
             <div className="leading-none">
               <span className="font-black text-white text-lg">Ingen</span>
               <span className="font-black text-lg" style={{color:'#f97316'}}>IA</span>

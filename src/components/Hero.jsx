@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Calendar, MapPin, ChevronDown } from 'lucide-react'
+import LogoIngenia from './LogoIngenia'
 
 const TARGET = new Date('2026-05-28T09:00:00')
 
@@ -76,61 +77,72 @@ export default function Hero() {
       </svg>
 
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center">
-        {/* Badge */}
-        <motion.div
-          variants={fadeUp} initial="hidden" animate="show" transition={{ delay: 0.1 }}
-          className="inline-flex items-center gap-2 card-glass rounded-full px-4 py-2 mb-6 text-sm text-sky-300"
-        >
-          <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
-          Maestría en Ingeniería — UPIDET · ITD
-        </motion.div>
-
-        {/* Logos row */}
+        {/* Logo IngenIA — protagonista */}
         <motion.div
           variants={fadeUp} initial="hidden" animate="show" transition={{ delay: 0.15 }}
-          className="flex items-center justify-center gap-6 mb-6"
+          className="flex flex-col items-center mb-6"
         >
-          <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl overflow-hidden border-2 border-sky-500/30 bg-white/5 flex items-center justify-center">
-            <img src="/logo-ingenia.png" alt="IngenIA logo"
-              className="w-full h-full object-contain p-2"
-              onError={(e) => {
-                e.target.parentElement.innerHTML = '<span style="font-size:15px;font-weight:900;color:#f97316;text-align:center">Ingen<br/>IA</span>'
-              }}
-            />
+          {/* Halo de luz detrás del logo */}
+          <div className="relative flex items-center justify-center">
+            <div className="absolute rounded-full blur-3xl opacity-30 w-72 h-72"
+              style={{ background: 'radial-gradient(circle, #f97316 0%, #38bdf8 60%, transparent 100%)' }} />
+            <div className="absolute rounded-full blur-xl opacity-20 w-48 h-48 animate-pulse"
+              style={{ background: '#f97316' }} />
+
+            <motion.div
+              whileHover={{ scale: 1.04 }}
+              transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+              className="relative z-10"
+            >
+              <LogoIngenia size={220} className="drop-shadow-2xl sm:w-[260px] sm:h-[260px]" />
+            </motion.div>
           </div>
-          <div className="w-px h-20 bg-sky-500/20" />
-          <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl overflow-hidden border-2 border-sky-500/30 bg-white/5 flex items-center justify-center">
-            <img src="/logo-itd.png" alt="Instituto Tecnológico de Durango"
-              className="w-full h-full object-contain p-2"
-              onError={(e) => {
-                e.target.parentElement.innerHTML = '<span style="font-size:13px;font-weight:700;color:#e2e8f0;text-align:center">ITD<br/>1948</span>'
-              }}
-            />
-          </div>
+
+          {/* Logo ITD — secundario, debajo */}
+          <motion.div
+            variants={fadeUp} initial="hidden" animate="show" transition={{ delay: 0.25 }}
+            className="flex items-center gap-4 mt-6"
+          >
+            <div className="w-px h-8 bg-white/10" />
+            <div className="w-20 h-20 rounded-full overflow-hidden border border-white/20 bg-white/5 flex items-center justify-center">
+              <img src="/logo-itd.png" alt="Instituto Tecnológico de Durango"
+                className="w-full h-full object-contain p-1"
+                onError={(e) => { e.target.parentElement.innerHTML = '<span style="font-size:10px;font-weight:700;color:#94a3b8">ITD</span>' }}
+              />
+            </div>
+            <span className="text-sm text-slate-400 tracking-wide">Instituto Tecnológico<br/>de Durango</span>
+            <div className="w-px h-8 bg-white/10" />
+          </motion.div>
         </motion.div>
 
-        {/* Main title */}
-        <motion.h1
-          variants={fadeUp} initial="hidden" animate="show" transition={{ delay: 0.2 }}
-          className="font-black text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight text-white leading-none mb-4"
-        >
-          Ingen<span style={{ color: '#f97316' }}>IA</span>
-        </motion.h1>
-
+        {/* Título del evento */}
         <motion.div
           variants={fadeUp} initial="hidden" animate="show" transition={{ delay: 0.3 }}
-          className="text-xl sm:text-2xl md:text-3xl font-light text-slate-300 mb-2"
+          className="mb-3"
         >
-          Simposio <span className="font-bold text-white">2026</span>
+          <h1 className="font-black text-5xl sm:text-6xl md:text-7xl tracking-tight text-white leading-none">
+            Ingen<span style={{ color: '#f97316' }}>IA</span>
+          </h1>
+          <div className="text-xl sm:text-2xl font-light text-slate-300 mt-2">
+            Simposio <span className="font-bold text-white">2026</span>
+          </div>
         </motion.div>
 
         <motion.p
-          variants={fadeUp} initial="hidden" animate="show" transition={{ delay: 0.4 }}
-          className="text-lg sm:text-xl font-medium mb-8"
+          variants={fadeUp} initial="hidden" animate="show" transition={{ delay: 0.38 }}
+          className="text-lg sm:text-xl font-medium mb-4"
           style={{ color: '#38bdf8' }}
         >
           "La nueva ingeniería es inteligente"
         </motion.p>
+
+        <motion.div
+          variants={fadeUp} initial="hidden" animate="show" transition={{ delay: 0.42 }}
+          className="inline-flex items-center gap-2 card-glass rounded-full px-4 py-2 mb-8 text-sm text-sky-300"
+        >
+          <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
+          Maestría en Ingeniería — UPIDET · ITD
+        </motion.div>
 
         {/* Event info */}
         <motion.div

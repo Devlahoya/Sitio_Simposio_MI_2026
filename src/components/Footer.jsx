@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { Calendar, MapPin, Heart } from 'lucide-react'
+import LogoIngenia from './LogoIngenia'
 
 const navLinks = [
   { href: '#sobre', label: 'Sobre el Evento' },
@@ -24,11 +25,8 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full border border-sky-500/20 bg-white/5 overflow-hidden flex items-center justify-center">
-                <img src="/logo-ingenia.png" alt="IngenIA"
-                  className="w-full h-full object-contain p-1"
-                  onError={(e) => { e.target.parentElement.innerHTML = '<span style="font-weight:900;font-size:11px;color:#f97316">IA</span>' }}
-                />
+              <div className="flex items-center justify-center">
+                <LogoIngenia size={40} showText={false} />
               </div>
               <div>
                 <div className="font-black text-white text-lg leading-none">

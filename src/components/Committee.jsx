@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { Shield, Mic2, BookOpen, Users, HelpCircle, Building2 } from 'lucide-react'
+import LogoIngenia from './LogoIngenia'
 
 const roles = [
   {
@@ -92,11 +93,8 @@ export default function Committee() {
           className="mb-12 card-glass rounded-2xl p-8 text-center"
         >
           <div className="flex items-center justify-center gap-6 mb-6">
-            <div className="w-16 h-16 rounded-full overflow-hidden bg-white/5 border border-sky-500/20 flex items-center justify-center">
-              <img src="/logo-ingenia.png" alt="IngenIA"
-                className="w-full h-full object-contain p-1"
-                onError={(e) => { e.target.parentElement.innerHTML = '<span style="font-size:10px;font-weight:900;color:#f97316">IA</span>' }}
-              />
+            <div className="flex items-center justify-center">
+              <LogoIngenia size={64} showText={false} />
             </div>
             <div className="w-px h-10 bg-sky-500/20" />
             <div className="w-16 h-16 rounded-full overflow-hidden bg-white/5 border border-sky-500/20 flex items-center justify-center">
