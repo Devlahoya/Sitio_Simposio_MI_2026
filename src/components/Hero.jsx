@@ -84,34 +84,63 @@ export default function Hero() {
         >
           {/* Halo de luz detrás del logo */}
           <div className="relative flex items-center justify-center">
-            <div className="absolute rounded-full blur-3xl opacity-30 w-72 h-72"
-              style={{ background: 'radial-gradient(circle, #f97316 0%, #38bdf8 60%, transparent 100%)' }} />
-            <div className="absolute rounded-full blur-xl opacity-20 w-48 h-48 animate-pulse"
+            {/* Halo exterior — naranja/sky, más grande que el logo */}
+            <div className="absolute rounded-full blur-3xl opacity-40 w-80 h-80 sm:w-[420px] sm:h-[420px]"
+              style={{ background: 'radial-gradient(circle, #f97316 0%, #38bdf8 55%, transparent 80%)' }} />
+            {/* Pulso naranja concentrado en el borde del logo */}
+            <div className="absolute rounded-3xl blur-2xl opacity-35 w-[270px] h-[270px] sm:w-[330px] sm:h-[330px] animate-pulse"
               style={{ background: '#f97316' }} />
 
             <motion.div
               whileHover={{ scale: 1.04 }}
               transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-              className="relative z-10"
+              className="relative z-10 rounded-3xl overflow-hidden"
             >
-              <LogoIngenia size={220} className="drop-shadow-2xl sm:w-[260px] sm:h-[260px]" />
+              <LogoIngenia size={260} className="drop-shadow-2xl sm:w-[320px] sm:h-[320px]" />
             </motion.div>
           </div>
 
-          {/* Logo ITD — secundario, debajo */}
+          {/* Logos institucionales — fila de 3 */}
           <motion.div
             variants={fadeUp} initial="hidden" animate="show" transition={{ delay: 0.25 }}
-            className="flex items-center gap-4 mt-6"
+            className="flex items-center justify-center gap-3 sm:gap-5 mt-7 flex-wrap"
           >
-            <div className="w-px h-8 bg-white/10" />
-            <div className="w-20 h-20 rounded-full overflow-hidden border border-white/20 bg-white/5 flex items-center justify-center">
-              <img src="/logo-itd.png" alt="Instituto Tecnológico de Durango"
-                className="w-full h-full object-contain p-1"
-                onError={(e) => { e.target.parentElement.innerHTML = '<span style="font-size:10px;font-weight:700;color:#94a3b8">ITD</span>' }}
-              />
+            {/* ITD */}
+            <div className="flex flex-col items-center gap-2">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border border-white/20 bg-white/5 flex items-center justify-center">
+                <img src="/logo-itd.png" alt="Instituto Tecnológico de Durango"
+                  className="w-full h-full object-contain p-1"
+                  onError={(e) => { e.target.parentElement.innerHTML = '<span style="font-size:9px;font-weight:700;color:#94a3b8">ITD</span>' }}
+                />
+              </div>
+              <span className="text-[10px] text-slate-500 text-center leading-tight max-w-[72px]">Instituto Tecnológico de Durango</span>
             </div>
-            <span className="text-sm text-slate-400 tracking-wide">Instituto Tecnológico<br/>de Durango</span>
-            <div className="w-px h-8 bg-white/10" />
+
+            <div className="w-px h-12 bg-white/10 hidden sm:block" />
+
+            {/* ITVG */}
+            <div className="flex flex-col items-center gap-2">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border border-white/20 bg-white/5 flex items-center justify-center">
+                <img src="/logo-itvg.png" alt="Instituto Tecnológico del Valle del Guadiana"
+                  className="w-full h-full object-contain p-1"
+                  onError={(e) => { e.target.parentElement.innerHTML = '<span style="font-size:9px;font-weight:700;color:#94a3b8">ITVG</span>' }}
+                />
+              </div>
+              <span className="text-[10px] text-slate-500 text-center leading-tight max-w-[72px]">Instituto Tecnológico del Valle del Guadiana</span>
+            </div>
+
+            <div className="w-px h-12 bg-white/10 hidden sm:block" />
+
+            {/* Maestría en Ingeniería */}
+            <div className="flex flex-col items-center gap-2">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border border-white/20 bg-white/5 flex items-center justify-center">
+                <img src="/logo-maestria.png" alt="Maestría en Ingeniería"
+                  className="w-full h-full object-contain p-1"
+                  onError={(e) => { e.target.parentElement.innerHTML = '<span style="font-size:9px;font-weight:700;color:#94a3b8">MI</span>' }}
+                />
+              </div>
+              <span className="text-[10px] text-slate-500 text-center leading-tight max-w-[72px]">Posgrado de Maestría en Ingeniería</span>
+            </div>
           </motion.div>
         </motion.div>
 

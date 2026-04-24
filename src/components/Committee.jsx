@@ -92,15 +92,29 @@ export default function Committee() {
           viewport={{ once: true }}
           className="mb-12 card-glass rounded-2xl p-8 text-center"
         >
-          <div className="flex items-center justify-center gap-6 mb-6">
+          <div className="flex items-center justify-center gap-4 sm:gap-6 mb-6 flex-wrap">
             <div className="flex items-center justify-center">
-              <LogoIngenia size={64} showText={false} />
+              <LogoIngenia size={64} />
             </div>
-            <div className="w-px h-10 bg-sky-500/20" />
-            <div className="w-16 h-16 rounded-full overflow-hidden bg-white/5 border border-sky-500/20 flex items-center justify-center">
+            <div className="w-px h-10 bg-sky-500/20 hidden sm:block" />
+            <div className="w-14 h-14 rounded-full overflow-hidden bg-white/5 border border-sky-500/20 flex items-center justify-center">
               <img src="/logo-itd.png" alt="ITD"
                 className="w-full h-full object-contain p-1"
-                onError={(e) => { e.target.parentElement.innerHTML = '<span style="font-size:10px;font-weight:700;color:#e2e8f0">ITD</span>' }}
+                onError={(e) => { e.target.parentElement.innerHTML = '<span style="font-size:9px;font-weight:700;color:#e2e8f0">ITD</span>' }}
+              />
+            </div>
+            <div className="w-px h-10 bg-sky-500/20 hidden sm:block" />
+            <div className="w-14 h-14 rounded-full overflow-hidden bg-white/5 border border-sky-500/20 flex items-center justify-center">
+              <img src="/logo-itvg.png" alt="ITVG"
+                className="w-full h-full object-contain p-1"
+                onError={(e) => { e.target.parentElement.innerHTML = '<span style="font-size:9px;font-weight:700;color:#e2e8f0">ITVG</span>' }}
+              />
+            </div>
+            <div className="w-px h-10 bg-sky-500/20 hidden sm:block" />
+            <div className="w-14 h-14 rounded-full overflow-hidden bg-white/5 border border-sky-500/20 flex items-center justify-center">
+              <img src="/logo-maestria.png" alt="Maestría en Ingeniería"
+                className="w-full h-full object-contain p-1"
+                onError={(e) => { e.target.parentElement.innerHTML = '<span style="font-size:9px;font-weight:700;color:#e2e8f0">MI</span>' }}
               />
             </div>
           </div>

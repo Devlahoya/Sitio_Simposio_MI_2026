@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react'
 import emailjs from '@emailjs/browser'
+import ReCAPTCHA from 'react-google-recaptcha'
 import { motion, useInView } from 'framer-motion'
 import { Mail, MapPin, Calendar, Send, CheckCircle, User, AtSign } from 'lucide-react'
 
@@ -28,20 +29,24 @@ const infoItems = [
 ]
 
 export default function Contact() {
-  const [form, setForm] = useState({ nombre: '', email: '', institucion: '', tipo: '', mensaje: '' })
+  const [form, setForm]           = useState({ nombre: '', email: '', institucion: '', tipo: '', mensaje: '' })
   const [submitted, setSubmitted] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
+  const [loading, setLoading]     = useState(false)
+  const [captchaOk, setCaptchaOk] = useState(false)
+  const captchaRef                = useRef(null)
+  const ref                       = useRef(null)
+  const inView                    = useInView(ref, { once: true, margin: '-80px' })
 
   const EMAILJS_SERVICE_ID  = import.meta.env.VITE_EMAILJS_SERVICE_ID
   const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
   const EMAILJS_PUBLIC_KEY  = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+  const RECAPTCHA_SITE_KEY  = import.meta.env.VITE_RECAPTCHA_SITE_KEY
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (!captchaOk) return
     setLoading(true)
     try {
       await emailjs.send(
@@ -60,6 +65,8 @@ export default function Contact() {
     } catch (err) {
       console.error('EmailJS error:', err)
       alert('Error al enviar el registro. Intenta de nuevo.')
+      captchaRef.current?.reset()
+      setCaptchaOk(false)
     }
     setLoading(false)
   }
@@ -119,7 +126,6 @@ export default function Contact() {
               )
             })}
 
-            {/* Modalidad badge */}
             <div className="card-glass rounded-xl p-5">
               <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-3">El evento incluye</p>
               {[
@@ -174,12 +180,8 @@ export default function Contact() {
                             id="nombre" name="nombre" required
                             value={form.nombre} onChange={handleChange}
                             placeholder="Tu nombre"
-                            className="w-full pl-9 pr-4 py-3 rounded-xl text-sm text-white placeholder-slate-600 outline-none focus:ring-2 transition-all"
-                            style={{
-                              background: 'rgba(255,255,255,0.04)',
-                              border: '1px solid rgba(255,255,255,0.1)',
-                              '--tw-ring-color': '#f97316',
-                            }}
+                            className="w-full pl-9 pr-4 py-3 rounded-xl text-sm text-white placeholder-slate-600 outline-none transition-all"
+                            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)' }}
                             onFocus={e => e.target.style.borderColor = 'rgba(249,115,22,0.5)'}
                             onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.1)'}
                           />
@@ -255,10 +257,22 @@ export default function Contact() {
                       />
                     </div>
 
+                    {/* reCAPTCHA */}
+                    <div className="flex justify-center">
+                      <ReCAPTCHA
+                        ref={captchaRef}
+                        sitekey={RECAPTCHA_SITE_KEY}
+                        theme="dark"
+                        onChange={(token) => setCaptchaOk(!!token)}
+                        onExpired={() => setCaptchaOk(false)}
+                      />
+                    </div>
+
+                    {/* Submit */}
                     <button
                       type="submit"
-                      disabled={loading}
-                      className="w-full flex items-center justify-center gap-2 py-4 rounded-xl font-bold text-white transition-all duration-200 hover:scale-[1.02] disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
+                      disabled={loading || !captchaOk}
+                      className="w-full flex items-center justify-center gap-2 py-4 rounded-xl font-bold text-white transition-all duration-200 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 cursor-pointer"
                       style={{ background: 'linear-gradient(135deg, #f97316, #ea580c)' }}
                     >
                       {loading ? (
@@ -272,7 +286,7 @@ export default function Contact() {
                       ) : (
                         <>
                           <Send size={16} />
-                          Enviar Registro
+                          {captchaOk ? 'Enviar Registro' : 'Completa el captcha para continuar'}
                         </>
                       )}
                     </button>
