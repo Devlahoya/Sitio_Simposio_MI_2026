@@ -47,19 +47,19 @@ export default function Hero() {
   }, [])
 
   return (
-    <section id="inicio" className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-grid pt-20">
-      {/* Ambient blobs */}
+    <section id="inicio" className="relative min-h-screen flex flex-col items-center justify-center bg-grid pt-20">
+      {/* Overflow container for decorative elements only — keeps fixed navbar safe */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        {/* Ambient blobs */}
         <div className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full opacity-20"
           style={{ background: 'radial-gradient(circle, #1a2b5e 0%, transparent 70%)' }} />
         <div className="absolute -bottom-40 -right-40 w-[700px] h-[700px] rounded-full opacity-15"
           style={{ background: 'radial-gradient(circle, #0ea5e9 0%, transparent 70%)' }} />
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[900px] h-[400px] rounded-full opacity-10"
           style={{ background: 'radial-gradient(ellipse, #f97316 0%, transparent 60%)' }} />
-      </div>
 
-      {/* Neural network decorative lines */}
-      <svg className="absolute inset-0 w-full h-full opacity-5 pointer-events-none" xmlns="http://www.w3.org/2000/svg">
+        {/* Neural network decorative lines */}
+        <svg className="absolute inset-0 w-full h-full opacity-5" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <pattern id="net" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse">
             <circle cx="100" cy="100" r="2" fill="#38bdf8" />
@@ -74,9 +74,10 @@ export default function Hero() {
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#net)" />
-      </svg>
+        </svg>
+      </div>{/* end overflow-hidden wrapper */}
 
-      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center pb-20 sm:pb-16">
         {/* Logo IngenIA — protagonista */}
         <motion.div
           variants={fadeUp} initial="hidden" animate="show" transition={{ delay: 0.15 }}
@@ -118,19 +119,6 @@ export default function Hero() {
 
             <div className="w-px h-12 bg-white/10 hidden sm:block" />
 
-            {/* ITVG */}
-            <div className="flex flex-col items-center gap-2">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border border-white/20 bg-white/5 flex items-center justify-center">
-                <img src="/logo-itvg.png" alt="Instituto Tecnológico del Valle del Guadiana"
-                  className="w-full h-full object-contain p-1"
-                  onError={(e) => { e.target.parentElement.innerHTML = '<span style="font-size:9px;font-weight:700;color:#94a3b8">ITVG</span>' }}
-                />
-              </div>
-              <span className="text-[10px] text-slate-500 text-center leading-tight max-w-[72px]">Instituto Tecnológico del Valle del Guadiana</span>
-            </div>
-
-            <div className="w-px h-12 bg-white/10 hidden sm:block" />
-
             {/* Maestría en Ingeniería */}
             <div className="flex flex-col items-center gap-2">
               <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border border-white/20 bg-white/5 flex items-center justify-center">
@@ -140,6 +128,19 @@ export default function Hero() {
                 />
               </div>
               <span className="text-[10px] text-slate-500 text-center leading-tight max-w-[72px]">Posgrado de Maestría en Ingeniería</span>
+            </div>
+
+            <div className="w-px h-12 bg-white/10 hidden sm:block" />
+
+            {/* ITVG */}
+            <div className="flex flex-col items-center gap-2">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border border-white/20 bg-white/5 flex items-center justify-center">
+                <img src="/logo-itvg.png" alt="Instituto Tecnológico del Valle del Guadiana"
+                  className="w-full h-full object-contain p-1"
+                  onError={(e) => { e.target.parentElement.innerHTML = '<span style="font-size:9px;font-weight:700;color:#94a3b8">ITVG</span>' }}
+                />
+              </div>
+              <span className="text-[10px] text-slate-500 text-center leading-tight max-w-[72px]">Instituto Tecnológico del Valle del Guadiana</span>
             </div>
           </motion.div>
         </motion.div>
@@ -232,7 +233,7 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-slate-600"
+        className="hidden sm:flex absolute bottom-3 left-1/2 -translate-x-1/2 flex-col items-center gap-1 text-slate-600"
       >
         <span className="text-xs tracking-widest uppercase">Explorar</span>
         <motion.div animate={{ y: [0, 6, 0] }} transition={{ repeat: Infinity, duration: 1.5 }}>

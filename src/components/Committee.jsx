@@ -105,16 +105,16 @@ export default function Committee() {
             </div>
             <div className="w-px h-10 bg-sky-500/20 hidden sm:block" />
             <div className="w-14 h-14 rounded-full overflow-hidden bg-white/5 border border-sky-500/20 flex items-center justify-center">
-              <img src="/logo-itvg.png" alt="ITVG"
+              <img src="/logo-maestria.png" alt="Maestría en Ingeniería"
                 className="w-full h-full object-contain p-1"
-                onError={(e) => { e.target.parentElement.innerHTML = '<span style="font-size:9px;font-weight:700;color:#e2e8f0">ITVG</span>' }}
+                onError={(e) => { e.target.parentElement.innerHTML = '<span style="font-size:9px;font-weight:700;color:#e2e8f0">MI</span>' }}
               />
             </div>
             <div className="w-px h-10 bg-sky-500/20 hidden sm:block" />
             <div className="w-14 h-14 rounded-full overflow-hidden bg-white/5 border border-sky-500/20 flex items-center justify-center">
-              <img src="/logo-maestria.png" alt="Maestría en Ingeniería"
+              <img src="/logo-itvg.png" alt="ITVG"
                 className="w-full h-full object-contain p-1"
-                onError={(e) => { e.target.parentElement.innerHTML = '<span style="font-size:9px;font-weight:700;color:#e2e8f0">MI</span>' }}
+                onError={(e) => { e.target.parentElement.innerHTML = '<span style="font-size:9px;font-weight:700;color:#e2e8f0">ITVG</span>' }}
               />
             </div>
           </div>

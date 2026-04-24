@@ -1,8 +1,36 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import emailjs from '@emailjs/browser'
-import ReCAPTCHA from 'react-google-recaptcha'
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 import { motion, useInView } from 'framer-motion'
-import { Mail, MapPin, Calendar, Send, CheckCircle, User, AtSign } from 'lucide-react'
+import { Mail, MapPin, Calendar, Send, CheckCircle, User, AtSign, ShieldCheck, Camera, X } from 'lucide-react'
+import { generateBadge } from '../utils/generateBadge'
+
+// Comprime imagen a máx 800px, JPEG 75%
+function compressImage(file, maxSize = 800, quality = 0.75) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onerror = reject
+    reader.onload = (ev) => {
+      const img = new Image()
+      img.onerror = reject
+      img.onload = () => {
+        const ratio  = Math.min(maxSize / img.width, maxSize / img.height, 1)
+        const canvas = document.createElement('canvas')
+        canvas.width  = Math.round(img.width  * ratio)
+        canvas.height = Math.round(img.height * ratio)
+        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height)
+        const dataUrl = canvas.toDataURL('image/jpeg', quality)
+        resolve({
+          base64:   dataUrl.split(',')[1],
+          mime:     'image/jpeg',
+          preview:  dataUrl,
+        })
+      }
+      img.src = ev.target.result
+    }
+    reader.readAsDataURL(file)
+  })
+}
 
 const infoItems = [
   {
@@ -30,46 +58,100 @@ const infoItems = [
 
 export default function Contact() {
   const [form, setForm]           = useState({ nombre: '', email: '', institucion: '', tipo: '', mensaje: '' })
+  const [foto, setFoto]           = useState(null)   // { base64, mime, preview }
+  const [fotoError, setFotoError] = useState('')
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading]     = useState(false)
-  const [captchaOk, setCaptchaOk] = useState(false)
-  const captchaRef                = useRef(null)
   const ref                       = useRef(null)
   const inView                    = useInView(ref, { once: true, margin: '-80px' })
+  const { executeRecaptcha }      = useGoogleReCaptcha()
 
   const EMAILJS_SERVICE_ID  = import.meta.env.VITE_EMAILJS_SERVICE_ID
   const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
   const EMAILJS_PUBLIC_KEY  = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-  const RECAPTCHA_SITE_KEY  = import.meta.env.VITE_RECAPTCHA_SITE_KEY
+  const SHEET_SCRIPT_URL    = import.meta.env.VITE_APPS_SCRIPT_URL
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
 
-  const handleSubmit = async (e) => {
+  const handleFoto = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setFotoError('')
+    if (file.size > 8 * 1024 * 1024) {
+      setFotoError('La foto no debe superar 8 MB.')
+      return
+    }
+    if (!file.type.startsWith('image/')) {
+      setFotoError('Solo se aceptan imágenes.')
+      return
+    }
+    try {
+      const compressed = await compressImage(file)
+      setFoto(compressed)
+    } catch {
+      setFotoError('No se pudo procesar la imagen. Intenta con otra.')
+    }
+  }
+
+  const uploadBadge = async (badgeBase64) => {
+    if (!badgeBase64) return ''
+    try {
+      const res  = await fetch('/.netlify/functions/upload-badge', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ badgeBase64 }),
+      })
+      const json = await res.json()
+      if (json.error) console.error('upload-badge fn error:', json.error)
+      return json.url || ''
+    } catch (err) {
+      console.error('uploadBadge error:', err)
+      return ''
+    }
+  }
+
+  const saveToSheet = (data) => {
+    if (!SHEET_SCRIPT_URL) return
+    const params = new URLSearchParams({
+      nombre:      data.nombre,
+      email:       data.email,
+      institucion: data.institucion,
+      tipo:        data.tipo,
+      mensaje:     data.mensaje || '',
+    })
+    fetch(SHEET_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: params }).catch(() => {})
+  }
+
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault()
-    if (!captchaOk) return
+    if (!executeRecaptcha) return
     setLoading(true)
     try {
-      await emailjs.send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        {
-          from_name:   form.nombre,
-          from_email:  form.email,
-          institucion: form.institucion,
-          tipo:        form.tipo,
-          mensaje:     form.mensaje || '(sin comentarios)',
-        },
-        EMAILJS_PUBLIC_KEY
-      )
+      await executeRecaptcha('registro_simposio')
+      const [, badgeBase64] = await Promise.all([
+        emailjs.send(
+          EMAILJS_SERVICE_ID,
+          EMAILJS_TEMPLATE_ID,
+          {
+            from_name:   form.nombre,
+            from_email:  form.email,
+            institucion: form.institucion,
+            tipo:        form.tipo,
+            mensaje:     form.mensaje || '(sin comentarios)',
+          },
+          EMAILJS_PUBLIC_KEY
+        ),
+        generateBadge(form, foto?.base64 || null),
+      ])
+      void uploadBadge(badgeBase64)
+      saveToSheet(form)
       setSubmitted(true)
     } catch (err) {
-      console.error('EmailJS error:', err)
+      console.error('Error:', err)
       alert('Error al enviar el registro. Intenta de nuevo.')
-      captchaRef.current?.reset()
-      setCaptchaOk(false)
     }
     setLoading(false)
-  }
+  }, [executeRecaptcha, form, foto, EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, EMAILJS_PUBLIC_KEY, SHEET_SCRIPT_URL])
 
   return (
     <section id="registro" className="relative py-24 sm:py-32">
@@ -133,7 +215,6 @@ export default function Contact() {
                 'Mesa redonda con investigadores',
                 'Curso práctico de IA con Python',
                 'Presentación de protocolos de investigación',
-                'Constancia de participación',
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-2 py-1.5 border-b border-white/5 last:border-0">
                   <CheckCircle size={13} style={{ color: '#4ade80', flexShrink: 0 }} />
@@ -242,6 +323,37 @@ export default function Contact() {
                       </select>
                     </div>
 
+                    {/* Foto para gafete */}
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-400 mb-1.5">
+                        Foto para gafete <span className="text-slate-600 font-normal">(opcional · JPG/PNG · máx 8 MB)</span>
+                      </label>
+                      <input id="foto" type="file" accept="image/*" onChange={handleFoto} className="hidden" />
+                      {foto ? (
+                        <div className="flex items-center gap-3">
+                          <img src={foto.preview} alt="Preview" className="w-16 h-16 rounded-xl object-cover border border-white/10 shrink-0" />
+                          <div>
+                            <p className="text-xs text-green-400 mb-1">✓ Foto lista</p>
+                            <button type="button" onClick={() => setFoto(null)}
+                              className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-red-400 transition-colors cursor-pointer">
+                              <X size={11} /> Quitar foto
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div>
+                          <label htmlFor="foto"
+                            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm text-slate-300 border border-white/10 hover:border-orange-500/40 hover:text-orange-400 transition-colors cursor-pointer"
+                          >
+                            <Camera size={15} />
+                            Seleccionar foto
+                          </label>
+                          {fotoError && <p className="text-xs text-red-400 mt-1.5">{fotoError}</p>}
+                          <p className="text-[10px] text-slate-600 mt-1.5">Se usará para identificarte en el gafete del evento.</p>
+                        </div>
+                      )}
+                    </div>
+
                     <div>
                       <label className="block text-xs font-semibold text-slate-400 mb-1.5" htmlFor="mensaje">
                         Comentarios (opcional)
@@ -257,22 +369,17 @@ export default function Contact() {
                       />
                     </div>
 
-                    {/* reCAPTCHA */}
-                    <div className="flex justify-center">
-                      <ReCAPTCHA
-                        ref={captchaRef}
-                        sitekey={RECAPTCHA_SITE_KEY}
-                        theme="dark"
-                        onChange={(token) => setCaptchaOk(!!token)}
-                        onExpired={() => setCaptchaOk(false)}
-                      />
+                    {/* Protección reCAPTCHA v3 — invisible */}
+                    <div className="flex items-center gap-2 text-xs text-slate-600">
+                      <ShieldCheck size={13} />
+                      <span>Protegido por reCAPTCHA v3 — Google</span>
                     </div>
 
                     {/* Submit */}
                     <button
                       type="submit"
-                      disabled={loading || !captchaOk}
-                      className="w-full flex items-center justify-center gap-2 py-4 rounded-xl font-bold text-white transition-all duration-200 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 cursor-pointer"
+                      disabled={loading}
+                      className="w-full flex items-center justify-center gap-2 py-4 rounded-xl font-bold text-white transition-all duration-200 hover:scale-[1.02] disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 cursor-pointer"
                       style={{ background: 'linear-gradient(135deg, #f97316, #ea580c)' }}
                     >
                       {loading ? (
@@ -286,7 +393,7 @@ export default function Contact() {
                       ) : (
                         <>
                           <Send size={16} />
-                          {captchaOk ? 'Enviar Registro' : 'Completa el captcha para continuar'}
+                          Enviar Registro
                         </>
                       )}
                     </button>

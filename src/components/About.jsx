@@ -60,7 +60,7 @@ export default function About() {
   const inView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
-    <section id="sobre" className="relative py-24 sm:py-32 overflow-hidden">
+    <section id="sobre" className="relative py-24 sm:py-32">
       {/* Background accent */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-sky-500/20 to-transparent" />
