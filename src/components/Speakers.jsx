@@ -27,7 +27,7 @@ const speakers = [
     name: 'Ing. Darcy Torres',
     role: 'Moderadora & Instructora',
     topic: 'Mesa Redonda + Curso "Fundamentos de IA con Python"',
-    bio: 'Moderadora de la mesa redonda y co-instructora del curso práctico de IA. Alumna de la Maestría en Ingeniería del ITD.',
+    bio: 'Moderadora de la mesa redonda y co-instructora del curso práctico de IA. Especialista en implementación de algoritmos de Machine Learning con Python.',
     tags: ['Python', 'Machine Learning', 'Maestría'],
     confirmed: true,
     avatar: null,

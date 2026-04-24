@@ -85,7 +85,7 @@ export default function About() {
             {' '}Simposio?
           </h2>
           <p className="max-w-3xl mx-auto text-lg text-slate-400 leading-relaxed">
-            El <strong className="text-white">IngenIA Simposium 2026</strong> es un evento académico organizado por la
+            El <strong className="text-white">IngenIA Simposio 2026</strong> es un evento académico organizado por la
             Maestría en Ingeniería, adscrita a la Unidad de Posgrado, Investigación y Desarrollo Tecnológico{' '}
             <strong className="text-sky-400">(UPIDET)</strong> del Instituto Tecnológico de Durango.
           </p>

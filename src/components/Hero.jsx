@@ -23,12 +23,12 @@ function CountCard({ value, label }) {
       animate={{ opacity: 1, y: 0 }}
       className="flex flex-col items-center"
     >
-      <div className="card-glass rounded-xl w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center glow-sky">
-        <span className="font-black text-3xl sm:text-4xl text-white tabular-nums leading-none">
+      <div className="card-glass rounded-xl w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 flex items-center justify-center glow-sky">
+        <span className="font-black text-2xl sm:text-3xl md:text-4xl text-white tabular-nums leading-none">
           {String(value).padStart(2, '0')}
         </span>
       </div>
-      <span className="mt-2 text-xs text-slate-400 uppercase tracking-widest">{label}</span>
+      <span className="mt-1.5 text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider">{label}</span>
     </motion.div>
   )
 }
@@ -166,13 +166,13 @@ export default function Hero() {
           className="mb-3"
         >
           <p className="text-xs text-slate-500 uppercase tracking-widest mb-4">Cuenta regresiva</p>
-          <div className="flex items-start justify-center gap-3 sm:gap-6">
+          <div className="flex items-start justify-center gap-2 sm:gap-4 md:gap-6">
             <CountCard value={time.d} label="Días" />
-            <span className="text-3xl font-thin text-slate-600 mt-5">:</span>
+            <span className="text-xl sm:text-2xl font-thin text-slate-600 mt-4 sm:mt-5">:</span>
             <CountCard value={time.h} label="Horas" />
-            <span className="text-3xl font-thin text-slate-600 mt-5">:</span>
+            <span className="text-xl sm:text-2xl font-thin text-slate-600 mt-4 sm:mt-5">:</span>
             <CountCard value={time.m} label="Minutos" />
-            <span className="text-3xl font-thin text-slate-600 mt-5">:</span>
+            <span className="text-xl sm:text-2xl font-thin text-slate-600 mt-4 sm:mt-5">:</span>
             <CountCard value={time.s} label="Segundos" />
           </div>
         </motion.div>
