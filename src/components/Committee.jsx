@@ -33,10 +33,17 @@ const roles = [
     color: '#a855f7',
   },
   {
+    icon: Mic2,
+    role: 'Ponente Invitado — Conferencia 1',
+    name: 'Juan Pedro Maestrone Vázquez',
+    org: 'AI Developer · Eagerworks · Montevideo, Uruguay',
+    color: '#f97316',
+  },
+  {
     icon: HelpCircle,
-    role: 'Ponentes Invitados',
-    name: 'Por definir',
-    org: 'Conferencias magistrales',
+    role: 'Ponente Invitado — Conferencia 2',
+    name: 'Por confirmar',
+    org: 'Conferencia magistral · Día 2',
     color: '#fbbf24',
   },
   {
