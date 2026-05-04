@@ -4,13 +4,14 @@ import { Mic, Globe, BookOpen, ExternalLink } from 'lucide-react'
 
 const speakers = [
   {
-    name: 'Ponente Invitado Internacional',
+    name: 'Juan Pedro Maestrone Vázquez',
     role: 'Conferencia 1 — Día 1',
     topic: '"El futuro de la ingeniería en la era de la IA"',
-    bio: 'Experto internacional en Inteligencia Artificial aplicada a la ingeniería. Perfil por confirmar. Se contempla la participación de ponentes de alto perfil internacional.',
-    tags: ['IA', 'Ingeniería', 'Industria 4.0'],
-    confirmed: false,
+    bio: 'Ingeniero Eléctrico por la Universidad de la República, docente del Instituto de Ingeniería Eléctrica de la Facultad de Ingeniería y AI Developer en Eagerworks. Su trabajo combina investigación aplicada, docencia universitaria y desarrollo de soluciones de IA para ingeniería y software. Ha trabajado en modelos de detección y segmentación para inspección visual de aerogeneradores, así como en aplicaciones basadas en modelos de lenguaje, agentes de IA e integración de herramientas.',
+    tags: ['IA Aplicada', 'Visión por Computadora', 'Agentes de IA', 'LLM'],
+    confirmed: true,
     avatar: null,
+    origin: 'Montevideo, Uruguay',
     accentColor: '#f97316',
   },
   {
@@ -120,6 +121,14 @@ function SpeakerCard({ s, index }) {
           </div>
         </div>
 
+        {/* Origen (si aplica) */}
+        {s.origin && (
+          <div className="flex gap-2 mb-2">
+            <Globe size={13} className="shrink-0 mt-0.5 text-slate-500" />
+            <p className="text-xs text-slate-500">{s.origin}</p>
+          </div>
+        )}
+
         {/* Topic */}
         <div className="flex gap-2 mb-3">
           <Mic size={13} className="shrink-0 mt-0.5 text-slate-500" />
@@ -171,21 +180,6 @@ export default function Speakers() {
             Investigadores, docentes y estudiantes que compartirán su conocimiento sobre
             el impacto de la IA en la ingeniería moderna.
           </p>
-        </motion.div>
-
-        {/* Call for speakers banner */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.97 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          className="mb-10 rounded-2xl p-5 flex flex-col sm:flex-row items-center gap-4"
-          style={{ background: 'rgba(249,115,22,0.08)', border: '1px solid rgba(249,115,22,0.2)' }}
-        >
-          <Globe size={28} style={{ color: '#f97316', flexShrink: 0 }} />
-          <div className="text-center sm:text-left">
-            <p className="font-bold text-white">Ponentes internacionales en gestión</p>
-            <p className="text-sm text-slate-400 mt-0.5">Se contemplan ponentes invitados de perfil internacional para las conferencias magistrales. Detalles próximamente.</p>
-          </div>
         </motion.div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">

@@ -24,7 +24,7 @@ const DAYS = [
         title: 'Conferencia 1',
         subtitle: '"El futuro de la ingeniería en la era de la IA"',
         desc: 'Conferencia magistral de apertura sobre el panorama global de la ingeniería frente al avance de la IA: tendencias, transformaciones del perfil profesional y áreas emergentes.',
-        speaker: 'Ponente invitado — por confirmar',
+        speaker: 'Juan Pedro Maestrone Vázquez — Ing. Eléctrico, AI Developer · Montevideo, Uruguay',
         icon: Mic,
         type: 'conference',
       },
