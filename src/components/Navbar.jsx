@@ -9,6 +9,7 @@ const links = [
   { href: '#programa', label: 'Programa' },
   { href: '#ponentes', label: 'Ponentes' },
   { href: '#comite', label: 'Comité' },
+  { href: '#egresados', label: 'Egresados' },
   { href: '#contacto', label: 'Contacto' },
 ]
 

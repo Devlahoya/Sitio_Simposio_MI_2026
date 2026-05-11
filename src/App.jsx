@@ -5,6 +5,7 @@ import About from './components/About'
 import Program from './components/Program'
 import Speakers from './components/Speakers'
 import Committee from './components/Committee'
+import Egresados from './components/Egresados'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import ScrollToTop from './components/ScrollToTop'
@@ -19,6 +20,7 @@ export default function App() {
         <Program />
         <Speakers />
         <Committee />
+        <Egresados />
         <Contact />
       </main>
       <Footer />
